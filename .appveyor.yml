@@ -1,0 +1,16 @@
+build: off
+environment:
+  matrix:
+    - jdk: 11
+
+install:
+  - cmd: |
+      choco install openjdk11
+      refreshenv
+
+build_script:
+  - ps: $env:Path = "C:\Program Files\OpenJDK\jdk-11\bin;" + $env:Path
+  - cmd: |
+      java -jar ./artifacts/app-card-delivery.jar &
+      sleep 5
+      ./gradlew test --info -Dselenide.headless=true
